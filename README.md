@@ -64,3 +64,55 @@ Stockage des résultats :
 
 - Table dq_metrics
 - Historisation des contrôles
+
+## Staging & Data Warehouse (MySQL)
+### Staging
+
+- Données nettoyées
+- Prêtes à être intégrées
+
+### Data Warehouse
+
+Modélisation en étoile :
+
+- fact_facture
+- dim_client
+- dim_date
+
+## Calcul des KPI en SQL
+
+KPI calculés:
+
+- CA total
+- CA mensuel
+- CA par secteur
+- Factures impayées
+- Clients sans paiement récent
+
+KPI qualité des données:
+Tables KPI
+
+- kpi_business
+- kpi_data_quality
+
+## Historisation & suivi temporel
+
+KPI stockés par date
+
+Suivi :
+
+- Performance business
+
+- Evolution qualité data
+
+- Prêt pour audit / gouvernance
+
+## Visualisation Power BI (Dashboard Direction)
+Power BI → MySQL (tables KPI uniquement)
+
+Visuels clés:
+- Carte KPI : CA total
+- Bar chart : CA par secteur
+- Line chart : évolution mensuelle
+- Table : top secteurs
+- Slicers : date / secteur
