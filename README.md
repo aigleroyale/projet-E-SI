@@ -119,3 +119,9 @@ Visuels clés:
 
 ## Processus
 ![Description du processus](images/image.png)
+
+## Lancement des codes
+
+```bash
+git clone https://github.com/aigleroyale/projet-E-SI.git
+```
