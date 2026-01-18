@@ -42,3 +42,4 @@ df_paiements.to_sql(
 
 print("Données chargées avec succès dans la base de données MySQL")
 
+
