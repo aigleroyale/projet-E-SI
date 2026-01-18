@@ -33,6 +33,6 @@ Introduction volontaire :
 Stocker les données telles quelles
 Aucune transformation lourde
 Tables typiques
-+ client
-+ facture
-+ paiement
++ src_client
++ src_facture
++ src_paiement
