@@ -143,6 +143,12 @@ esi_env\Scripts\Activate
 pip install -r requirement.txt
 ```
 
+### généré les données
+```bash
+python 01_generate_data_raw.py
+```
+
+
 
 
 
