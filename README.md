@@ -39,10 +39,26 @@ Dans une base de données nommée : `data_plateform`
 
 ##  ETL avec Python (Extraction – Transformation – Load)
 - Extraction
+  
 Lecture MySQL / CSV via pandas + SQLAlchemy
+
 - Transformations
+- 
 Normalisation des données
 - Load 
 Insertion des données sources dans la base de données `data_plateform` selon les tables
 
+## Contrôles qualité & parité des données
 
+Garantir la fiabilité des chiffres direction
+
+- Contrôles réalisés
++ Nullité
++ Unicité
++ Cohérence (montant payé ≤ montant facture)
++ Volumétrie (parité source ↔ staging)
+
+Stockage des résultats : 
+
+- Table dq_metrics
+- Historisation des contrôles
