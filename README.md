@@ -13,29 +13,17 @@ Mettre en place une chaîne data complète permettant :
 
 -  Fournir à la direction des KPI clairs et exploitables via Power BI.
 
-1.  Génération des données brutes (Python)
-🎯 Pourquoi ?
+##  Génération des données brutes (Python)
 
 Simuler un environnement réel (données imparfaites)
 
-🛠 Ce qui a été fait
-
-Script Python générant :
-
-clients
-
-factures
-
-paiements
-
-Volumes importants
+Script Python génère :
+- clients
+- factures
+- paiements
 
 Introduction volontaire :
-
-montants négatifs
-
-paiements incohérents
-
-factures non payées
-
-dates invalides
+- montants négatifs
+- paiements incohérents
+- factures non payées
+- dates invalides
