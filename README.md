@@ -52,7 +52,7 @@ Insertion des données sources dans la base de données `data_plateform` selon l
 
 Garantir la fiabilité des chiffres direction
 
-- Contrôles réalisés
+Contrôles réalisés
 + Nullité
 + Unicité
 + Cohérence (montant payé ≤ montant facture)
