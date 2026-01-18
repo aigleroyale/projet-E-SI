@@ -31,8 +31,7 @@ Introduction volontaire :
 
 ## Chargement des données sources (MySQL – zone source)
 Stocker les données telles quelles
-Aucune transformation lourde
-Tables typiques
+Tables typiques :
 + src_client
 + src_facture
 + src_paiement
