@@ -117,5 +117,5 @@ Visuels clés:
 - Table : top secteurs
 - Slicers : date / secteur
 
-## Image
+## Processus
 ![Description du processus](images/image.png)
