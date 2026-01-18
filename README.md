@@ -38,11 +38,11 @@ Tables typiques :
 Dans une base de données nommée : `data_plateform`
 
 ##  ETL avec Python (Extraction – Transformation – Load)
-🔹 Extraction
+- Extraction
 Lecture MySQL / CSV via pandas + SQLAlchemy
-🔹 Transformations
+- Transformations
 Normalisation des données
-🔹 Load 
+- Load 
 Insertion des données sources dans la base de données `data_plateform` selon les tables
 
 
