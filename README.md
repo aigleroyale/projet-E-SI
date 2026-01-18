@@ -13,7 +13,7 @@ Mettre en place une chaîne data complète permettant :
 
 -  Fournir à la direction des KPI clairs et exploitables via Power BI.
 
-##  Génération des données brutes (Python)
+## Génération des données brutes (Python)
 
 Simuler un environnement réel (données imparfaites)
 
@@ -36,3 +36,13 @@ Tables typiques :
 + src_facture
 + src_paiement
 Dans une base de données nommée : `data_plateform`
+
+##  ETL avec Python (Extraction – Transformation – Load)
+🔹 Extraction
+Lecture MySQL / CSV via pandas + SQLAlchemy
+🔹 Transformations
+Normalisation des données
+🔹 Load 
+Insertion des données sources dans la base de données `data_plateform` selon les tables
+
+
