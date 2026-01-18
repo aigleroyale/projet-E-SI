@@ -27,3 +27,12 @@ Introduction volontaire :
 - paiements incohérents
 - factures non payées
 - dates invalides
+
+
+## Chargement des données sources (MySQL – zone source)
+Stocker les données telles quelles
+Aucune transformation lourde
+Tables typiques
++ client
++ facture
++ paiement
