@@ -132,14 +132,16 @@ git clone https://github.com/aigleroyale/projet-E-SI.git
 cd projet-E-SI
 ```
 
-### Créer votre environnement virtuel python et activez le
+### Créer votre environnement virtuel python et activez le et installer les packages nécessaires
 ```bash
 python -m venv esi_env
 ```
 ```bash
 esi_env\Scripts\Activate
 ```
-
+```bash
+pip install requirement.txt
+```
 
 
 
