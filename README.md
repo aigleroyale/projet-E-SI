@@ -43,9 +43,11 @@ Dans une base de données nommée : `data_plateform`
 Lecture MySQL / CSV via pandas + SQLAlchemy
 
 - Transformations
-- 
+  
 Normalisation des données
-- Load 
+
+- Load
+  
 Insertion des données sources dans la base de données `data_plateform` selon les tables
 
 ## Contrôles qualité & parité des données
