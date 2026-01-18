@@ -122,6 +122,26 @@ Visuels clés:
 
 ## Lancement des codes
 
+### Clone le repertoire sur ton poste de travail
 ```bash
 git clone https://github.com/aigleroyale/projet-E-SI.git
 ```
+
+### Entrez dans le dossier de travail
+```bash
+cd projet-E-SI
+```
+
+### Créer votre environnement virtuel python et activez le
+```bash
+python -m venv esi_env
+```
+```bash
+esi_env\Scripts\Activate
+```
+
+
+
+
+
+
