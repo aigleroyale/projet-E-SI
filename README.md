@@ -140,7 +140,7 @@ python -m venv esi_env
 esi_env\Scripts\Activate
 ```
 ```bash
-pip install requirement.txt
+pip install -r requirement.txt
 ```
 
 
