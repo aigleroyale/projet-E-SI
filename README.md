@@ -116,3 +116,6 @@ Visuels clés:
 - Line chart : évolution mensuelle
 - Table : top secteurs
 - Slicers : date / secteur
+
+## Image
+![Description du processus](images/image.png)
