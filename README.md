@@ -128,11 +128,15 @@ esi_env\Scripts\Activate
 pip install -r requirement.txt
 ```
 
-### généré les données
+### Générer les données
 ```bash
 python 01_generate_data_raw.py
 ```
 
+### Créer notre base de données et les différentes tables
+```sql
+python 01_generate_data_raw.py
+```
 
 
 
