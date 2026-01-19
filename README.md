@@ -91,19 +91,7 @@ KPI calculés:
 - kpi_data_quality:
   - Factures impayées
   - Clients sans paiement récent
-
-## Historisation & suivi temporel
-
-KPI stockés par date
-
-Suivi :
-
-- Performance business
-
-- Evolution qualité data
-
-- Prêt pour audit / gouvernance
-
+    
 ## Visualisation Power BI (Dashboard Direction)
 Power BI → MySQL (tables KPI uniquement)
 
