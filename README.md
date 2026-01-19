@@ -83,18 +83,14 @@ Modélisation en étoile :
 ## Calcul des KPI en SQL
 
 KPI calculés:
-
-- CA total
-- CA mensuel
-- CA par secteur
-- Factures impayées
-- Clients sans paiement récent
-
-KPI qualité des données:
-Tables KPI
-
-- kpi_business
-- kpi_data_quality
+- kpi_business:
+  - CA total
+  - CA mensuel
+  - CA par secteur
+  
+- kpi_data_quality:
+  - Factures impayées
+  - Clients sans paiement récent
 
 ## Historisation & suivi temporel
 
