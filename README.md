@@ -225,11 +225,18 @@ HAVING f.montant_ht > NVL(SUM(p.montant_paye), 0); */
 SELECT c.client_id, c.nom
 FROM src_client c
 WHERE NOT EXISTS (
-  SELECT 1 FROM src_facture f
-           JOIN src_paiement p ON p.facture_id = f.facture_id
-           WHERE f.client_id = c.client_id AND p.date_paiement >= DATE_SUB(CURDATE(), INTERVAL 60 DAY) ); 
+				  SELECT 1 FROM src_facture f
+				  JOIN src_paiement p ON p.facture_id = f.facture_id
+                  WHERE f.client_id = c.client_id AND p.date_paiement >= DATE_SUB(CURDATE(), INTERVAL 60 DAY) ); 
 
-/* SELECT c.client_id, c.nom FROM client c WHERE NOT EXISTS ( SELECT 1 FROM facture f JOIN paiement p ON p.facture_id = f.facture_id WHERE f.client_id = c.client_id AND p.date_paiement >= SYSDATE - 60 );*/ 
+/* SELECT c.client_id, c.nom 
+	FROM client c 
+    WHERE NOT EXISTS ( 
+						SELECT 1 
+                        FROM facture f 
+                        JOIN paiement p ON p.facture_id = f.facture_id 
+                        WHERE f.client_id = c.client_id AND p.date_paiement >= SYSDATE - 60 )
+;*/ 
 ```
  
 
