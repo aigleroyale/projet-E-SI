@@ -170,6 +170,16 @@ CREATE TABLE src_paiement (
 );
 ```
 
+### Créer les tables
+
+```sql
+------------------ INDEX MINIMAUX (PERFORMANCE CHARGEMENT / LECTURE)
+CREATE INDEX idx_src_facture_client ON src_facture(client_id);
+CREATE INDEX idx_src_facture_date ON src_facture(date_facture);
+CREATE INDEX idx_src_paiement_facture ON src_paiement(facture_id);
+```
+
+
 
 
 
