@@ -133,7 +133,7 @@ pip install -r requirement.txt
 python 01_generate_data_raw.py
 ```
 
-### Créer notre base de données et les différentes tables
+### Créer notre base de données
 ```sql
 ------------- Création de la DB
 CREATE DATABASE IF NOT EXISTS data_platform
@@ -142,6 +142,34 @@ COLLATE utf8mb4_unicode_ci;
 
 USE data_platform;
 ```
+### Créer les tables
+```sql
+------------ Table src_client
+CREATE TABLE src_client (
+    client_id INT,
+    nom VARCHAR(255),
+    secteur VARCHAR(50),
+    pays VARCHAR(10),
+    date_creation DATE
+);
+
+------------ Table src_facture
+CREATE TABLE src_facture (
+    facture_id INT,
+    client_id INT,
+    date_facture DATE,
+    montant_ht DECIMAL(15,2)
+);
+
+------------ Table src_paiement
+CREATE TABLE src_paiement (
+    paiement_id INT,
+    facture_id INT,
+    date_paiement DATE,
+    montant_paye DECIMAL(15,2)
+);
+```
+
 
 
 
