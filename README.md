@@ -179,6 +179,17 @@ CREATE INDEX idx_src_facture_date ON src_facture(date_facture);
 CREATE INDEX idx_src_paiement_facture ON src_paiement(facture_id);
 ```
 
+### Vérifiez si les données sont integrées
+```bash
+----------- REQUÊTES DE VÉRIFICATION MYSQL
+SELECT COUNT(*) FROM src_client;
+SELECT COUNT(*) FROM src_facture;
+SELECT COUNT(*) FROM src_paiement;
+
+SELECT * FROM src_client;
+SELECT * FROM src_facture;
+SELECT * FROM src_paiement;
+```
 
 
 
