@@ -294,6 +294,28 @@ VALUES
 
 ```
 
+```sql
+SELECT
+    COUNT(*) * 100.0 / (SELECT COUNT(*) FROM src_facture) AS taux_factures_non_payees
+FROM src_facture f
+LEFT JOIN src_paiement p ON p.facture_id = f.facture_id
+WHERE p.facture_id IS NULL;
+```
+
+```sql
+SELECT
+    r.rule_name,
+    r.seuil,
+    m.metric_value,
+    CASE
+        WHEN m.metric_value <= r.seuil THEN 'OK'
+        ELSE 'KO'
+    END AS statut
+FROM dq_rules r
+JOIN dq_metrics m
+  ON r.rule_name = m.metric_name;
+```
+
 
 -------------- Table des métriques de qualité
 CREATE TABLE dq_metrics (
