@@ -35,6 +35,7 @@ Tables typiques :
 + src_client
 + src_facture
 + src_paiement
+  
 Dans une base de données nommée : `data_plateform`
 
 ##  ETL avec Python (Extraction – Transformation – Load)
