@@ -190,6 +190,17 @@ SELECT * FROM src_client;
 SELECT * FROM src_facture;
 SELECT * FROM src_paiement;
 ```
+### Quelques requêtes avancées
+
+```sql
+-------Question 1 – CA par client sur 12 mois
+SELECT c.client_id, c.nom, SUM(f.montant_ht) AS ca_12_mois
+FROM src_client c JOIN src_facture f ON f.client_id = c.client_id
+WHERE f.date_facture >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+GROUP BY c.client_id, c.nom
+ORDER BY ca_12_mois DESC
+```
+ 
 
 
 
