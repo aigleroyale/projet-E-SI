@@ -277,6 +277,7 @@ VALUES
 ```
 
 ```sql
+----------------- Exemple : contrôle factures non payées
 SELECT
     COUNT(*) * 100.0 / (SELECT COUNT(*) FROM src_facture) AS taux_factures_non_payees
 FROM src_facture f
