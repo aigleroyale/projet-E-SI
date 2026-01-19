@@ -220,12 +220,16 @@ HAVING f.montant_ht > NVL(SUM(p.montant_paye), 0); */
 
 
 ```sql
-------- Question 1 – Calcule du CA par client sur 12 mois
-SELECT c.client_id, c.nom, SUM(f.montant_ht) AS ca_12_mois
-FROM src_client c JOIN src_facture f ON f.client_id = c.client_id
-WHERE f.date_facture >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
-GROUP BY c.client_id, c.nom
-ORDER BY ca_12_mois DESC
+-------- Question 3 – Clients sans paiement depuis 60 jours 
+
+SELECT c.client_id, c.nom
+FROM src_client c
+WHERE NOT EXISTS (
+  SELECT 1 FROM src_facture f
+           JOIN src_paiement p ON p.facture_id = f.facture_id
+           WHERE f.client_id = c.client_id AND p.date_paiement >= DATE_SUB(CURDATE(), INTERVAL 60 DAY) ); 
+
+/* SELECT c.client_id, c.nom FROM client c WHERE NOT EXISTS ( SELECT 1 FROM facture f JOIN paiement p ON p.facture_id = f.facture_id WHERE f.client_id = c.client_id AND p.date_paiement >= SYSDATE - 60 );*/ 
 ```
  
 
