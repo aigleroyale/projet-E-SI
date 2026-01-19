@@ -170,6 +170,9 @@ CREATE TABLE src_paiement (
 );
 ```
 
+## MCD
+![Description du mcd](images/mcd.png)
+
 ### Créer les tables
 
 ```sql
