@@ -1,0 +1,186 @@
+
+------------- Création de la base de données
+CREATE DATABASE IF NOT EXISTS data_platform
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE data_platform;
+
+------------ Table src_client
+CREATE TABLE src_client (
+    client_id INT,
+    nom VARCHAR(255),
+    secteur VARCHAR(50),
+    pays VARCHAR(10),
+    date_creation DATE
+);
+
+------------ Table src_facture
+CREATE TABLE src_facture (
+    facture_id INT,
+    client_id INT,
+    date_facture DATE,
+    montant_ht DECIMAL(15,2)
+);
+
+------------ Table src_paiement
+CREATE TABLE src_paiement (
+    paiement_id INT,
+    facture_id INT,
+    date_paiement DATE,
+    montant_paye DECIMAL(15,2)
+);
+
+------------------ INDEX MINIMAUX (PERFORMANCE CHARGEMENT / LECTURE)
+CREATE INDEX idx_src_facture_client ON src_facture(client_id);
+CREATE INDEX idx_src_facture_date ON src_facture(date_facture);
+CREATE INDEX idx_src_paiement_facture ON src_paiement(facture_id);
+
+---------------- APRES CHARGEMENT
+----------- REQUÊTES DE VÉRIFICATION MYSQL
+SELECT COUNT(*) FROM src_client;
+SELECT COUNT(*) FROM src_facture;
+SELECT COUNT(*) FROM src_paiement;
+
+SELECT * FROM src_client;
+SELECT * FROM src_facture;
+SELECT * FROM src_paiement;
+
+------------- ETAPE 4 / TABLES DE QUALITÉ (MySQL)
+------- Table des règles de qualité (optionnel mais pro)
+CREATE TABLE dq_rules (
+    rule_id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(50),
+    rule_name VARCHAR(100),
+    description VARCHAR(255),
+    seuil DECIMAL(5,2)
+);
+
+-------------- Table des métriques de qualité
+CREATE TABLE dq_metrics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(50),
+    metric_name VARCHAR(100),
+    metric_value DECIMAL(10,2),
+    seuil DECIMAL(10,2),
+    statut VARCHAR(10),
+    date_mesure DATETIME
+);
+
+
+----------- Table des rejets
+CREATE TABLE dq_rejets_facture (
+    facture_id INT,
+    client_id INT,
+    date_facture DATE,
+    montant_ht DECIMAL(15,2),
+    motif_rejet VARCHAR(255),
+    date_rejet DATETIME
+);
+
+select * from dq_metrics;
+
+select * from dq_rejets_facture;
+
+---------- ÉTAPE 6 – STAGING (DONNÉES EXPLOITABLES)
+--------- Données cohérentes, standardisées, jointables
+
+CREATE TABLE stg_client AS
+SELECT DISTINCT
+    client_id,
+    UPPER(TRIM(secteur)) AS secteur,
+    pays,
+    date_creation
+FROM src_client
+WHERE pays IS NOT NULL
+AND secteur IS NOT NULL;
+
+
+CREATE TABLE stg_facture AS
+SELECT f.*
+FROM src_facture f
+JOIN stg_client c ON f.client_id = c.client_id
+WHERE f.montant_ht > 0
+AND f.montant_ht <= 100000
+AND f.date_facture <= CURDATE();
+
+CREATE TABLE stg_paiement AS
+SELECT p.*
+FROM src_paiement p
+JOIN stg_facture f ON p.facture_id = f.facture_id
+WHERE p.montant_paye <= f.montant_ht;
+
+------- CONTRÔLE POST-STAGING (PARITÉ FONCTIONNELLE)
+----------- src = stg + rejets
+
+SELECT COUNT(*) FROM src_facture;
+SELECT COUNT(*) FROM stg_facture;
+SELECT COUNT(*) FROM dq_rejets_facture;
+
+---------- ÉTAPE 7 – DATA WAREHOUSE (SCHÉMA ÉTOILE)
+----------- Dimension Client
+CREATE TABLE dim_client (
+    client_sk INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT,
+    secteur VARCHAR(50),
+    pays VARCHAR(10)
+);
+
+INSERT INTO dim_client (client_id, secteur, pays)
+SELECT DISTINCT client_id, secteur, pays
+FROM stg_client;
+
+------- Dimension Temps
+CREATE TABLE dim_date (
+    date_sk INT PRIMARY KEY,
+    date DATE,
+    annee INT,
+    mois INT
+);
+
+INSERT INTO dim_date
+SELECT DISTINCT
+    DATE_FORMAT(date_facture, '%Y%m%d') AS date_sk,
+    date_facture,
+    YEAR(date_facture),
+    MONTH(date_facture)
+FROM stg_facture;
+
+-------- Fait Facture
+CREATE TABLE fact_facture (
+    client_sk INT,
+    date_sk INT,
+    montant_ht DECIMAL(15,2)
+);
+
+INSERT INTO fact_facture
+SELECT
+    c.client_sk,
+    d.date_sk,
+    f.montant_ht
+FROM stg_facture f
+JOIN dim_client c ON f.client_id = c.client_id
+JOIN dim_date d ON f.date_facture = d.date;
+
+
+select * from  dim_client;
+select * from  dim_date;
+select * from  fact_facture;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
