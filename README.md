@@ -238,10 +238,16 @@ WHERE NOT EXISTS (
                         WHERE f.client_id = c.client_id AND p.date_paiement >= SYSDATE - 60 )
 ;*/ 
 ```
+
+```sql
+-------- Question 4 – Analyse mensuelle (window function)  
+SELECT mois, ca_mensuel, LAG(ca_mensuel) OVER (ORDER BY mois) AS ca_mois_precedent
+FROM ( SELECT DATE_FORMAT(date_facture, '%Y-%m-01') AS mois, SUM(montant_ht) AS ca_mensuel
+		FROM src_facture
+		GROUP BY DATE_FORMAT(date_facture, '%Y-%m-01') ) t
+		ORDER BY mois; 
+```
  
-
-
-
 
 
 
