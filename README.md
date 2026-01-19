@@ -193,7 +193,34 @@ SELECT * FROM src_paiement;
 ### Quelques requêtes avancées
 
 ```sql
--------Question 1 – CA par client sur 12 mois
+  -------Question 1 – Calcule du CA par client sur 12 mois
+SELECT c.client_id, c.nom, SUM(f.montant_ht) AS ca_12_mois
+FROM src_client c JOIN src_facture f ON f.client_id = c.client_id
+WHERE f.date_facture >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+GROUP BY c.client_id, c.nom
+ORDER BY ca_12_mois DESC
+```
+
+```sql
+----- Question 2 – Les factures impayées
+
+SELECT f.facture_id, f.montant_ht, IFNULL(SUM(p.montant_paye), 0) AS montant_paye, f.montant_ht - IFNULL(SUM(p.montant_paye), 0) AS reste_a_payer
+FROM src_facture f
+LEFT JOIN src_paiement p ON p.facture_id = f.facture_id
+GROUP BY f.facture_id, f.montant_ht
+HAVING f.montant_ht > IFNULL(SUM(p.montant_paye), 0);
+
+
+/*SELECT f.facture_id, f.montant_ht, NVL(SUM(p.montant_paye), 0) AS montant_paye, f.montant_ht - NVL(SUM(p.montant_paye), 0) AS reste_a_payer
+FROM facture f
+LEFT JOIN paiement p ON p.facture_id = f.facture_id
+GROUP BY f.facture_id, f.montant_ht
+HAVING f.montant_ht > NVL(SUM(p.montant_paye), 0); */
+```
+
+
+```sql
+  -------Question 1 – Calcule du CA par client sur 12 mois
 SELECT c.client_id, c.nom, SUM(f.montant_ht) AS ca_12_mois
 FROM src_client c JOIN src_facture f ON f.client_id = c.client_id
 WHERE f.date_facture >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
