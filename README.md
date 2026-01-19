@@ -135,7 +135,12 @@ python 01_generate_data_raw.py
 
 ### Créer notre base de données et les différentes tables
 ```sql
-python 01_generate_data_raw.py
+------------- Création de la DB
+CREATE DATABASE IF NOT EXISTS data_platform
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE data_platform;
 ```
 
 
