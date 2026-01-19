@@ -365,6 +365,65 @@ SELECT
 FROM src_facture
 WHERE montant_ht <= 0;
 
+INSERT INTO dq_rejets_facture (
+    facture_id,
+    client_id,
+    date_facture,
+    montant_ht,
+    motif_rejet,
+    date_rejet
+)
+SELECT
+    f.facture_id,
+    f.client_id,
+    f.date_facture,
+    f.montant_ht,
+    'Facture sans client associé',
+    NOW()
+FROM src_facture f
+LEFT JOIN src_client c
+  ON f.client_id = c.client_id
+WHERE c.client_id IS NULL;
+
+INSERT INTO dq_rejets_facture (
+    facture_id,
+    client_id,
+    date_facture,
+    montant_ht,
+    motif_rejet,
+    date_rejet
+)
+SELECT
+    f.facture_id,
+    f.client_id,
+    f.date_facture,
+    f.montant_ht,
+    'Facture sans client associé',
+    NOW()
+FROM src_facture f
+LEFT JOIN src_client c
+  ON f.client_id = c.client_id
+WHERE c.client_id IS NULL;
+
+INSERT INTO dq_rejets_facture (
+    facture_id,
+    client_id,
+    date_facture,
+    montant_ht,
+    motif_rejet,
+    date_rejet
+)
+SELECT
+    facture_id,
+    client_id,
+    date_facture,
+    montant_ht,
+    'Date facture dans le futur',
+    NOW()
+FROM src_facture
+WHERE date_facture > CURDATE();
+
+
 ```
 
 
