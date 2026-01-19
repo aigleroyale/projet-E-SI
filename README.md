@@ -250,7 +250,72 @@ FROM ( SELECT DATE_FORMAT(date_facture, '%Y-%m-01') AS mois, SUM(montant_ht) AS 
 		GROUP BY DATE_FORMAT(date_facture, '%Y-%m-01') ) t
 		ORDER BY mois; 
 ```
- 
+
+### TABLES DE QUALITÉ (MySQL)
+#### Règles de qualité
+
+```sql
+------- Table des règles de qualité
+CREATE TABLE dq_rules (
+    rule_id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(50),
+    rule_name VARCHAR(100),
+    description VARCHAR(255),
+    seuil DECIMAL(5,2)
+);
+```
+
+```sql
+INSERT INTO dq_rules (table_name, rule_name, description, seuil)
+VALUES
+('src_client', 'client_id_not_null',
+ 'Le client_id ne doit jamais être NULL',
+ 0),
+
+('src_facture', 'montant_ht_not_null',
+ 'Le montant HT doit être renseigné',
+ 0),
+
+('src_facture', 'montant_ht_positive',
+ 'Le montant HT doit être strictement positif',
+ 0),
+
+('src_facture', 'facture_orpheline',
+ 'Facture sans client associé',
+ 0),
+
+('src_paiement', 'montant_paye_positive',
+ 'Le montant payé doit être positif',
+ 0),
+
+('src_facture', 'facture_non_payee',
+ 'Factures non payées (tolérance)',
+ 10);
+
+```
+
+
+-------------- Table des métriques de qualité
+CREATE TABLE dq_metrics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(50),
+    metric_name VARCHAR(100),
+    metric_value DECIMAL(10,2),
+    seuil DECIMAL(10,2),
+    statut VARCHAR(10),
+    date_mesure DATETIME
+);
+
+
+----------- Table des rejets
+CREATE TABLE dq_rejets_facture (
+    facture_id INT,
+    client_id INT,
+    date_facture DATE,
+    montant_ht DECIMAL(15,2),
+    motif_rejet VARCHAR(255),
+    date_rejet DATETIME
+);
 
 
 
