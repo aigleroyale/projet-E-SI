@@ -321,9 +321,7 @@ SELECT
 FROM src_facture f
 LEFT JOIN src_paiement p ON p.facture_id = f.facture_id
 WHERE p.facture_id IS NULL;
-```
 
-```sql
 SELECT
     r.rule_name,
     r.seuil,
@@ -337,18 +335,7 @@ JOIN dq_metrics m
   ON r.rule_name = m.metric_name;
 ```
 
-
--------------- Table des métriques de qualité
-CREATE TABLE dq_metrics (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    table_name VARCHAR(50),
-    metric_name VARCHAR(100),
-    metric_value DECIMAL(10,2),
-    seuil DECIMAL(10,2),
-    statut VARCHAR(10),
-    date_mesure DATETIME
-);
-
+```sql
 
 ----------- Table des rejets
 CREATE TABLE dq_rejets_facture (
@@ -359,6 +346,6 @@ CREATE TABLE dq_rejets_facture (
     motif_rejet VARCHAR(255),
     date_rejet DATETIME
 );
-
+```
 
 
