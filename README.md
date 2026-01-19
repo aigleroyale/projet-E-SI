@@ -268,30 +268,12 @@ CREATE TABLE dq_rules (
 ```sql
 INSERT INTO dq_rules (table_name, rule_name, description, seuil)
 VALUES
-('src_client', 'client_id_not_null',
- 'Le client_id ne doit jamais être NULL',
- 0),
-
-('src_facture', 'montant_ht_not_null',
- 'Le montant HT doit être renseigné',
- 0),
-
-('src_facture', 'montant_ht_positive',
- 'Le montant HT doit être strictement positif',
- 0),
-
-('src_facture', 'facture_orpheline',
- 'Facture sans client associé',
- 0),
-
-('src_paiement', 'montant_paye_positive',
- 'Le montant payé doit être positif',
- 0),
-
-('src_facture', 'facture_non_payee',
- 'Factures non payées (tolérance)',
- 10);
-
+('src_client', 'client_id_not_null', 'Le client_id ne doit jamais être NULL', 0),
+('src_facture', 'montant_ht_not_null', 'Le montant HT doit être renseigné', 0),
+('src_facture', 'montant_ht_positive', 'Le montant HT doit être strictement positif', 0),
+('src_facture', 'facture_orpheline', 'Facture sans client associé', 0),
+('src_paiement', 'montant_paye_positive', 'Le montant payé doit être positif', 0),
+('src_facture', 'facture_non_payee', 'Factures non payées (tolérance)',10);
 ```
 
 ```sql
