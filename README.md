@@ -346,6 +346,25 @@ CREATE TABLE dq_rejets_facture (
     motif_rejet VARCHAR(255),
     date_rejet DATETIME
 );
+
+INSERT INTO dq_rejets_facture (
+    facture_id,
+    client_id,
+    date_facture,
+    montant_ht,
+    motif_rejet,
+    date_rejet
+)
+SELECT
+    facture_id,
+    client_id,
+    date_facture,
+    montant_ht,
+    'Montant HT négatif ou nul',
+    NOW()
+FROM src_facture
+WHERE montant_ht <= 0;
+
 ```
 
 
