@@ -263,6 +263,17 @@ CREATE TABLE dq_rules (
     description VARCHAR(255),
     seuil DECIMAL(5,2)
 );
+
+-------------- Table des métriques de qualité
+CREATE TABLE dq_metrics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(50),
+    metric_name VARCHAR(100),
+    metric_value DECIMAL(10,2),
+    seuil DECIMAL(10,2),
+    statut VARCHAR(10),
+    date_mesure DATETIME
+);
 ```
 
 ```sql
@@ -275,6 +286,33 @@ VALUES
 ('src_paiement', 'montant_paye_positive', 'Le montant payé doit être positif', 0),
 ('src_facture', 'facture_non_payee', 'Factures non payées (tolérance)',10);
 ```
+
+```sql
+INSERT INTO dq_metrics (
+    table_name,
+    metric_name,
+    metric_value,
+    seuil,
+    statut,
+    date_mesure
+)
+SELECT
+    'src_facture',
+    'montant_ht_positive',
+    COUNT(*) * 100.0 / (SELECT COUNT(*) FROM src_facture),
+    0,
+    CASE
+        WHEN COUNT(*) = 0 THEN 'OK'
+        ELSE 'KO'
+    END,
+    NOW()
+FROM src_facture
+WHERE montant_ht <= 0;
+
+```
+
+
+
 
 ```sql
 ----------------- Exemple : contrôle factures non payées
