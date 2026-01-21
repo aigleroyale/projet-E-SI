@@ -403,7 +403,47 @@ SELECT
 FROM src_facture
 WHERE date_facture > CURDATE();
 
+SELECT
+    DATE(date_rejet) AS date_kpi,
+    COUNT(*) AS nb_factures_rejetees
+FROM dq_rejets_facture
+GROUP BY DATE(date_rejet);
+```
 
+```bash
+---------- ÉTAPE 6 – STAGING (DONNÉES EXPLOITABLES)
+--------- Données cohérentes, standardisées, jointables
+
+CREATE TABLE stg_client AS
+SELECT DISTINCT
+    client_id,
+    UPPER(TRIM(secteur)) AS secteur,
+    pays,
+    date_creation
+FROM src_client
+WHERE pays IS NOT NULL
+AND secteur IS NOT NULL;
+
+CREATE TABLE stg_facture AS
+SELECT f.*
+FROM src_facture f
+JOIN stg_client c ON f.client_id = c.client_id
+WHERE f.montant_ht > 0
+AND f.montant_ht <= 100000
+AND f.date_facture <= CURDATE();
+
+CREATE TABLE stg_paiement AS
+SELECT p.*
+FROM src_paiement p
+JOIN stg_facture f ON p.facture_id = f.facture_id
+WHERE p.montant_paye <= f.montant_ht;
+
+------- CONTRÔLE POST-STAGING (PARITÉ FONCTIONNELLE)
+----------- src = stg + rejets
+
+SELECT COUNT(*) FROM src_facture;
+SELECT COUNT(*) FROM stg_facture;
+SELECT COUNT(*) FROM dq_rejets_facture;
 ```
 
 
