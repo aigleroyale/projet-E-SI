@@ -572,8 +572,9 @@ FROM kpi_data_quality
 GROUP BY date_kpi;
 ```
 ### Visualisation Power BI (Dashboard Direction)
-Power BI → MySQL (tables KPI uniquement)
+Power BI → MySQL (tables KPI business uniquement
 
+![Description du rapport](images/rapport_powerbi.png)
 
 
 
