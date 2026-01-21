@@ -498,3 +498,101 @@ select * from  dim_date;
 select * from  fact_facture;
 ```
 
+
+
+
+
+
+
+
+
+Modèle en étoile
+```sql
+CREATE TABLE dim_client (
+    client_sk INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT,
+    nom VARCHAR(100),
+    secteur VARCHAR(50)
+);
+
+INSERT INTO dim_client (client_id, secteur, pays)
+SELECT DISTINCT client_id, secteur, pays
+FROM stg_client;
+```
+
+KPI BUSINESS
+CREATE TABLE kpi_business (
+    date_kpi DATE,
+    secteur VARCHAR(50),
+    ca_total DECIMAL(15,2),
+    nb_factures INT
+);
+
+INSERT INTO kpi_business
+SELECT
+    f.date_facture AS date_kpi,
+    c.secteur,
+    SUM(f.montant_ht) AS ca_total,
+    COUNT(*) AS nb_factures
+FROM fact_facture f
+JOIN dim_client c ON f.client_sk = c.client_sk
+GROUP BY f.date_facture, c.secteur;
+
+
+
+KPI QUALITÉ DES DONNÉES
+CREATE TABLE kpi_data_quality (
+    date_kpi DATE,
+    table_name VARCHAR(50),
+    metric_name VARCHAR(100),
+    metric_value DECIMAL(10,2),
+    statut VARCHAR(10)
+);
+
+INSERT INTO kpi_data_quality (
+    date_kpi,
+    table_name,
+    metric_name,
+    metric_value,
+    statut
+)
+SELECT
+    DATE(date_mesure) AS date_kpi,
+    table_name,
+    metric_name,
+    AVG(metric_value) AS metric_value,
+    statut
+FROM dq_metrics
+GROUP BY
+    DATE(date_mesure),
+    table_name,
+    metric_name,
+    statut;
+
+KPI GLOBAL DE QUALITÉ
+CREATE TABLE kpi_quality_score AS
+SELECT
+    date_kpi,
+    AVG(CASE WHEN statut = 'OK' THEN 100 ELSE 0 END) AS score_qualite
+FROM kpi_data_quality
+GROUP BY date_kpi;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
