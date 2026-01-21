@@ -497,15 +497,6 @@ select * from  dim_client;
 select * from  dim_date;
 select * from  fact_facture;
 ```
-
-
-
-
-
-
-
-
-
 Modèle en étoile
 ```sql
 CREATE TABLE dim_client (
@@ -520,7 +511,8 @@ SELECT DISTINCT client_id, secteur, pays
 FROM stg_client;
 ```
 
-KPI BUSINESS
+```sql
+------------- KPI BUSINESS
 CREATE TABLE kpi_business (
     date_kpi DATE,
     secteur VARCHAR(50),
@@ -537,10 +529,10 @@ SELECT
 FROM fact_facture f
 JOIN dim_client c ON f.client_sk = c.client_sk
 GROUP BY f.date_facture, c.secteur;
+```
 
-
-
-KPI QUALITÉ DES DONNÉES
+```sql
+------------------ KPI QUALITÉ DES DONNÉES
 CREATE TABLE kpi_data_quality (
     date_kpi DATE,
     table_name VARCHAR(50),
@@ -568,15 +560,17 @@ GROUP BY
     table_name,
     metric_name,
     statut;
+```
 
-KPI GLOBAL DE QUALITÉ
+```sql
+---------- KPI GLOBAL DE QUALITÉ
 CREATE TABLE kpi_quality_score AS
 SELECT
     date_kpi,
     AVG(CASE WHEN statut = 'OK' THEN 100 ELSE 0 END) AS score_qualite
 FROM kpi_data_quality
 GROUP BY date_kpi;
-
+```
 
 
 
