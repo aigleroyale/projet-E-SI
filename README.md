@@ -410,7 +410,7 @@ FROM dq_rejets_facture
 GROUP BY DATE(date_rejet);
 ```
 
-```bash
+```sql
 ---------- ÉTAPE 6 – STAGING (DONNÉES EXPLOITABLES)
 --------- Données cohérentes, standardisées, jointables
 
@@ -446,4 +446,55 @@ SELECT COUNT(*) FROM stg_facture;
 SELECT COUNT(*) FROM dq_rejets_facture;
 ```
 
+```sql
+---------- ÉTAPE 7 – DATA WAREHOUSE (SCHÉMA ÉTOILE)
+----------- Dimension Client
+CREATE TABLE dim_client (
+    client_sk INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT,
+    secteur VARCHAR(50),
+    pays VARCHAR(10)
+);
+
+INSERT INTO dim_client (client_id, secteur, pays)
+SELECT DISTINCT client_id, secteur, pays
+FROM stg_client;
+
+------- Dimension Temps
+CREATE TABLE dim_date (
+    date_sk INT PRIMARY KEY,
+    date DATE,
+    annee INT,
+    mois INT
+);
+
+INSERT INTO dim_date
+SELECT DISTINCT
+    DATE_FORMAT(date_facture, '%Y%m%d') AS date_sk,
+    date_facture,
+    YEAR(date_facture),
+    MONTH(date_facture)
+FROM stg_facture;
+
+-------- Fait Facture
+CREATE TABLE fact_facture (
+    client_sk INT,
+    date_sk INT,
+    montant_ht DECIMAL(15,2)
+);
+
+INSERT INTO fact_facture
+SELECT
+    c.client_sk,
+    d.date_sk,
+    f.montant_ht
+FROM stg_facture f
+JOIN dim_client c ON f.client_id = c.client_id
+JOIN dim_date d ON f.date_facture = d.date;
+
+
+select * from  dim_client;
+select * from  dim_date;
+select * from  fact_facture;
+```
 
